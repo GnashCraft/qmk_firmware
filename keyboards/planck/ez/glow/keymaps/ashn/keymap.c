@@ -118,6 +118,7 @@ enum planck_layers {
   _LOWER,
   _RAISE,
   _ADJUST,
+  _FN,
 };
 
 #define LOWER MO(_LOWER)
@@ -135,7 +136,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     TD(DANCE_29),   KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_TRANSPARENT, KC_TRANSPARENT, KC_NO,          KC_NO,          KC_NO,          KC_NO,               KC_NO,          
     KC_ESCAPE,      KC_NO,          KC_NO,          KC_LGUI,        KC_NO,          KC_TRANSPARENT, KC_TRANSPARENT, KC_NO,          TD(DANCE_30),   TD(DANCE_31),   TD(DANCE_32),        TD(DANCE_33),   
     TD(DANCE_28),   TD(DANCE_34),   KC_NO,          LCTL(KC_LALT),  KC_NO,          KC_TRANSPARENT, KC_TRANSPARENT, KC_NO,          TD(DANCE_35),   TD(DANCE_36),   RALT(RGUI(KC_LEFT)), RALT(RGUI(KC_RIGHT)),
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_NO,          KC_TRANSPARENT, KC_NO,          KC_TRANSPARENT, KC_NO,          KC_TRANSPARENT, KC_TRANSPARENT, KC_NO,          KC_TRANSPARENT,      KC_TRANSPARENT
+    KC_TRANSPARENT, KC_TRANSPARENT, KC_NO,          KC_TRANSPARENT, KC_NO,          KC_TRANSPARENT, KC_NO,          KC_TRANSPARENT, KC_TRANSPARENT, OSL(_FN),       KC_TRANSPARENT,      KC_TRANSPARENT
   ),
 
   [_RAISE] = LAYOUT_planck_grid(
@@ -152,6 +153,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_NO,          KC_TRANSPARENT, KC_NO,              KC_TRANSPARENT, KC_NO,          KC_NO,          KC_NO,          KC_NO,               KC_TRANSPARENT,    KC_NO,           KC_TRANSPARENT,      KC_NO
   ),
 
+  [_FN] = LAYOUT_planck_grid(
+    KC_F1,          KC_F2,          KC_F3,  KC_F4,  KC_NO, KC_TRANSPARENT, KC_TRANSPARENT, KC_NO, KC_NO, KC_NO, KC_NO,          KC_NO,          
+    KC_F5,          KC_F6,          KC_F7,  KC_F8,  KC_NO, KC_TRANSPARENT, KC_TRANSPARENT, KC_NO, KC_NO, KC_NO, KC_NO,          KC_NO,   
+    KC_F9,          KC_F10,         KC_F11, KC_F12, KC_NO, KC_TRANSPARENT, KC_TRANSPARENT, KC_NO, KC_NO, KC_NO, KC_NO,          KC_NO,
+    KC_TRANSPARENT, KC_TRANSPARENT, KC_NO,  KC_NO,  KC_NO, KC_NO,          KC_NO,          KC_NO, KC_NO, KC_NO, KC_TRANSPARENT, KC_TRANSPARENT
+  ),
 };
 
 extern rgb_config_t rgb_matrix_config;
@@ -169,7 +176,7 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
     [1] = { {35,255,255}, {0,0,0},      {0,0,0}, {0,0,0},      {0,0,0}, {0,0,0},      {0,0,0},      {0,0,0},      {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},
             {35,255,255}, {0,0,0},      {0,0,0}, {85,203,158}, {0,0,0}, {0,0,0},      {0,0,0},      {0,0,0},      {154,255,255}, {154,255,255}, {154,255,255}, {154,255,255},
             {35,255,255}, {35,255,255}, {0,0,0}, {85,203,158}, {0,0,0}, {85,203,158}, {85,203,158}, {0,0,0},      {154,255,255}, {154,255,255}, {154,255,255}, {154,255,255},
-            {0,0,0},      {0,0,0},      {0,0,0}, {14,255,255}, {0,0,0}, {255,220,201},              {85,203,158}, {14,255,255},  {0,0,0},       {0,0,0},       {0,0,0} },
+            {0,0,0},      {0,0,0},      {0,0,0}, {14,255,255}, {0,0,0}, {255,220,201},              {85,203,158}, {14,255,255},  {14,255,255},  {0,0,0},       {0,0,0} },
 
     [2] = { {154,255,255}, {154,255,255}, {154,255,255}, {154,255,255}, {154,255,255}, {202,255,164}, {202,255,164}, {154,255,255}, {202,255,164}, {202,255,164}, {202,255,164}, {154,255,255},
             {154,255,255}, {154,255,255}, {154,255,255}, {154,255,255}, {154,255,255}, {0,0,0},       {0,0,0},       {154,255,255}, {202,255,164}, {202,255,164}, {202,255,164}, {202,255,164},
@@ -181,6 +188,10 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
             {35,255,255},  {35,255,255},  {35,255,255},  {35,255,255},  {85,203,158},  {35,255,255}, {35,255,255}, {35,255,255}, {202,255,164}, {202,255,164}, {202,255,164}, {35,255,255},
             {0,0,0},       {0,0,0},       {0,0,0},       {14,255,255},  {0,0,0},       {0,0,0},                    {0,0,0},      {14,255,255},  {0,0,0},       {0,0,0},       {0,0,0} },
 
+    [4] = { {154,255,255}, {154,255,255}, {154,255,255}, {154,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0},
+            {154,255,255}, {154,255,255}, {154,255,255}, {154,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0},
+            {154,255,255}, {154,255,255}, {154,255,255}, {154,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0},
+            {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0}, {0,0,0},          {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0} },
 };
 
 void set_layer_color(int layer) {
@@ -214,6 +225,9 @@ void rgb_matrix_indicators_user(void) {
       break;
     case 3:
       set_layer_color(3);
+      break;
+    case 4:
+      set_layer_color(4);
       break;
    default:
     if (rgb_matrix_get_flags() == LED_FLAG_NONE)
