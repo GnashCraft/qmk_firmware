@@ -403,12 +403,13 @@ enum {
 
 static tap dance_state[56];
 
+// Format: MACOS_WIN/LINUX
 enum modifier {
     MOD_NONE = 0,
-    CMD,
+    CMD_CTL,
     CMD_ALT,
-    SFT,
-    ALT,
+    SFT_SFT,
+    OPT_CTL,
 };
 
 typedef struct {
@@ -435,7 +436,7 @@ uint8_t dance_step(qk_tap_dance_state_t *state) {
 
 void set_mod_code(tap_dance_user_data_t *data) {
     switch(data->mod) {
-        case CMD:
+        case CMD_CTL:
             switch(CUR_OS) {
                 case MACOS: data->mod_code = LGUI(data->code); break;
                 default: data->mod_code = RCTL(data->code); break;
@@ -447,8 +448,8 @@ void set_mod_code(tap_dance_user_data_t *data) {
                 default: data->mod_code = RALT(data->code); break;
             }
             break;
-        case SFT: data->mod_code = RSFT(data->code); break;
-        case ALT:
+        case SFT_SFT: data->mod_code = RSFT(data->code); break;
+        case OPT_CTL:
             switch(CUR_OS) {
                 case MACOS: data->mod_code = RALT(data->code); break;
                 default: data->mod_code = RCTL(data->code); break;
@@ -617,56 +618,56 @@ void on_dance_end(qk_tap_dance_state_t *state, void *user_data) {
     { .fn = {on_dance, on_dance_finished_abk, on_dance_reset_str}, .user_data = (void *)&((tap_dance_user_data_t){KC_LABK, 0, MOD_NONE, "<>", NULL, index}), }
 
 qk_tap_dance_action_t tap_dance_actions[] = {
-        [DANCE_Q] = ACTION_TAP_DANCE_DATA(KC_Q, CMD, DANCE_Q),
-        [DANCE_W] = ACTION_TAP_DANCE_DATA(KC_W, CMD, DANCE_W),
-        [DANCE_E] = ACTION_TAP_DANCE_DATA(KC_E, CMD, DANCE_E),
-        [DANCE_R] = ACTION_TAP_DANCE_DATA(KC_R, CMD, DANCE_R),
-        [DANCE_T] = ACTION_TAP_DANCE_DATA(KC_T, CMD, DANCE_T),
-        [DANCE_Y] = ACTION_TAP_DANCE_DATA(KC_Y, CMD, DANCE_Y),
-        [DANCE_U] = ACTION_TAP_DANCE_DATA(KC_U, CMD, DANCE_U),
-        [DANCE_I] = ACTION_TAP_DANCE_DATA(KC_I, CMD, DANCE_I),
-        [DANCE_O] = ACTION_TAP_DANCE_DATA(KC_O, CMD, DANCE_O),
-        [DANCE_P] = ACTION_TAP_DANCE_DATA(KC_P, CMD, DANCE_P),
-        [DANCE_A] = ACTION_TAP_DANCE_DATA(KC_A, CMD, DANCE_A),
-        [DANCE_S] = ACTION_TAP_DANCE_DATA(KC_S, CMD, DANCE_S),
-        [DANCE_D] = ACTION_TAP_DANCE_DATA(KC_D, CMD, DANCE_D),
-        [DANCE_F] = ACTION_TAP_DANCE_DATA(KC_F, CMD, DANCE_F),
-        [DANCE_G] = ACTION_TAP_DANCE_DATA(KC_G, CMD, DANCE_G),
-        [DANCE_H] = ACTION_TAP_DANCE_DATA(KC_H, CMD, DANCE_H),
-        [DANCE_J] = ACTION_TAP_DANCE_DATA(KC_J, CMD, DANCE_J),
-        [DANCE_K] = ACTION_TAP_DANCE_DATA(KC_K, CMD, DANCE_K),
-        [DANCE_L] = ACTION_TAP_DANCE_DATA(KC_L, CMD, DANCE_L),
-        [DANCE_Z] = ACTION_TAP_DANCE_DATA(KC_Z, CMD, DANCE_Z),
-        [DANCE_X] = ACTION_TAP_DANCE_DATA(KC_X, CMD, DANCE_X),
-        [DANCE_C] = ACTION_TAP_DANCE_DATA(KC_C, CMD, DANCE_C),
-        [DANCE_V] = ACTION_TAP_DANCE_DATA(KC_V, CMD, DANCE_V),
-        [DANCE_B] = ACTION_TAP_DANCE_DATA(KC_B, CMD, DANCE_B),
-        [DANCE_N] = ACTION_TAP_DANCE_DATA(KC_N, CMD, DANCE_N),
-        [DANCE_M] = ACTION_TAP_DANCE_DATA(KC_M, CMD, DANCE_M),
-        [DANCE_SPACE] = ACTION_TAP_DANCE_DATA(KC_SPACE, CMD, DANCE_SPACE),
-        [DANCE_ENTER] = ACTION_TAP_DANCE_DATA(KC_ENTER, SFT, DANCE_ENTER),
-        [DANCE_BSPACE] = ACTION_TAP_DANCE_DATA(KC_BSPACE, ALT, DANCE_BSPACE),
+        [DANCE_Q] = ACTION_TAP_DANCE_DATA(KC_Q, CMD_CTL, DANCE_Q),
+        [DANCE_W] = ACTION_TAP_DANCE_DATA(KC_W, CMD_CTL, DANCE_W),
+        [DANCE_E] = ACTION_TAP_DANCE_DATA(KC_E, CMD_CTL, DANCE_E),
+        [DANCE_R] = ACTION_TAP_DANCE_DATA(KC_R, CMD_CTL, DANCE_R),
+        [DANCE_T] = ACTION_TAP_DANCE_DATA(KC_T, CMD_CTL, DANCE_T),
+        [DANCE_Y] = ACTION_TAP_DANCE_DATA(KC_Y, CMD_CTL, DANCE_Y),
+        [DANCE_U] = ACTION_TAP_DANCE_DATA(KC_U, CMD_CTL, DANCE_U),
+        [DANCE_I] = ACTION_TAP_DANCE_DATA(KC_I, CMD_CTL, DANCE_I),
+        [DANCE_O] = ACTION_TAP_DANCE_DATA(KC_O, CMD_CTL, DANCE_O),
+        [DANCE_P] = ACTION_TAP_DANCE_DATA(KC_P, CMD_CTL, DANCE_P),
+        [DANCE_A] = ACTION_TAP_DANCE_DATA(KC_A, CMD_CTL, DANCE_A),
+        [DANCE_S] = ACTION_TAP_DANCE_DATA(KC_S, CMD_CTL, DANCE_S),
+        [DANCE_D] = ACTION_TAP_DANCE_DATA(KC_D, CMD_CTL, DANCE_D),
+        [DANCE_F] = ACTION_TAP_DANCE_DATA(KC_F, CMD_CTL, DANCE_F),
+        [DANCE_G] = ACTION_TAP_DANCE_DATA(KC_G, CMD_CTL, DANCE_G),
+        [DANCE_H] = ACTION_TAP_DANCE_DATA(KC_H, CMD_CTL, DANCE_H),
+        [DANCE_J] = ACTION_TAP_DANCE_DATA(KC_J, CMD_CTL, DANCE_J),
+        [DANCE_K] = ACTION_TAP_DANCE_DATA(KC_K, CMD_CTL, DANCE_K),
+        [DANCE_L] = ACTION_TAP_DANCE_DATA(KC_L, CMD_CTL, DANCE_L),
+        [DANCE_Z] = ACTION_TAP_DANCE_DATA(KC_Z, CMD_CTL, DANCE_Z),
+        [DANCE_X] = ACTION_TAP_DANCE_DATA(KC_X, CMD_CTL, DANCE_X),
+        [DANCE_C] = ACTION_TAP_DANCE_DATA(KC_C, CMD_CTL, DANCE_C),
+        [DANCE_V] = ACTION_TAP_DANCE_DATA(KC_V, CMD_CTL, DANCE_V),
+        [DANCE_B] = ACTION_TAP_DANCE_DATA(KC_B, CMD_CTL, DANCE_B),
+        [DANCE_N] = ACTION_TAP_DANCE_DATA(KC_N, CMD_CTL, DANCE_N),
+        [DANCE_M] = ACTION_TAP_DANCE_DATA(KC_M, CMD_CTL, DANCE_M),
+        [DANCE_SPACE] = ACTION_TAP_DANCE_DATA(KC_SPACE, CMD_CTL, DANCE_SPACE),
+        [DANCE_ENTER] = ACTION_TAP_DANCE_DATA(KC_ENTER, SFT_SFT, DANCE_ENTER),
+        [DANCE_BSPACE] = ACTION_TAP_DANCE_DATA(KC_BSPACE, OPT_CTL, DANCE_BSPACE),
         [DANCE_TAB] = ACTION_TAP_DANCE_DATA(KC_TAB, CMD_ALT, DANCE_TAB),
-        [DANCE_LEFT] = ACTION_TAP_DANCE_DATA(KC_LEFT, ALT, DANCE_LEFT),
-        [DANCE_DOWN] = ACTION_TAP_DANCE_DATA(KC_DOWN, ALT, DANCE_DOWN),
-        [DANCE_UP] = ACTION_TAP_DANCE_DATA(KC_UP, ALT, DANCE_UP),
-        [DANCE_RIGHT] = ACTION_TAP_DANCE_DATA(KC_RIGHT, ALT, DANCE_RIGHT),
-        [DANCE_DEL] = ACTION_TAP_DANCE_DATA(KC_DELETE, ALT, DANCE_DEL),
+        [DANCE_LEFT] = ACTION_TAP_DANCE_DATA(KC_LEFT, OPT_CTL, DANCE_LEFT),
+        [DANCE_DOWN] = ACTION_TAP_DANCE_DATA(KC_DOWN, OPT_CTL, DANCE_DOWN),
+        [DANCE_UP] = ACTION_TAP_DANCE_DATA(KC_UP, OPT_CTL, DANCE_UP),
+        [DANCE_RIGHT] = ACTION_TAP_DANCE_DATA(KC_RIGHT, OPT_CTL, DANCE_RIGHT),
+        [DANCE_DEL] = ACTION_TAP_DANCE_DATA(KC_DELETE, OPT_CTL, DANCE_DEL),
         [DANCE_HOME] = ACTION_TAP_DANCE_HOME(DANCE_HOME),
         [DANCE_END] = ACTION_TAP_DANCE_END(DANCE_END),
-        [DANCE_0] = ACTION_TAP_DANCE_DATA(KC_0, SFT, DANCE_0),
-        [DANCE_1] = ACTION_TAP_DANCE_DATA(KC_1, SFT, DANCE_1),
-        [DANCE_2] = ACTION_TAP_DANCE_DATA(KC_2, SFT, DANCE_2),
-        [DANCE_3] = ACTION_TAP_DANCE_DATA(KC_3, SFT, DANCE_3),
-        [DANCE_4] = ACTION_TAP_DANCE_DATA(KC_4, SFT, DANCE_4),
-        [DANCE_5] = ACTION_TAP_DANCE_DATA(KC_5, SFT, DANCE_5),
-        [DANCE_6] = ACTION_TAP_DANCE_DATA(KC_6, SFT, DANCE_6),
-        [DANCE_7] = ACTION_TAP_DANCE_DATA(KC_7, SFT, DANCE_7),
-        [DANCE_8] = ACTION_TAP_DANCE_DATA(KC_8, SFT, DANCE_8),
-        [DANCE_9] = ACTION_TAP_DANCE_DATA(KC_9, SFT, DANCE_9),
-        [DANCE_SLASH] = ACTION_TAP_DANCE_DATA(KC_SLASH, SFT, DANCE_SLASH),
-        [DANCE_PLS] = ACTION_TAP_DANCE_DATA(KC_PLUS, CMD, DANCE_PLS),
-        [DANCE_MNS] = ACTION_TAP_DANCE_DATA(KC_MINUS, CMD, DANCE_MNS),
+        [DANCE_0] = ACTION_TAP_DANCE_DATA(KC_0, SFT_SFT, DANCE_0),
+        [DANCE_1] = ACTION_TAP_DANCE_DATA(KC_1, SFT_SFT, DANCE_1),
+        [DANCE_2] = ACTION_TAP_DANCE_DATA(KC_2, SFT_SFT, DANCE_2),
+        [DANCE_3] = ACTION_TAP_DANCE_DATA(KC_3, SFT_SFT, DANCE_3),
+        [DANCE_4] = ACTION_TAP_DANCE_DATA(KC_4, SFT_SFT, DANCE_4),
+        [DANCE_5] = ACTION_TAP_DANCE_DATA(KC_5, SFT_SFT, DANCE_5),
+        [DANCE_6] = ACTION_TAP_DANCE_DATA(KC_6, SFT_SFT, DANCE_6),
+        [DANCE_7] = ACTION_TAP_DANCE_DATA(KC_7, SFT_SFT, DANCE_7),
+        [DANCE_8] = ACTION_TAP_DANCE_DATA(KC_8, SFT_SFT, DANCE_8),
+        [DANCE_9] = ACTION_TAP_DANCE_DATA(KC_9, SFT_SFT, DANCE_9),
+        [DANCE_SLASH] = ACTION_TAP_DANCE_DATA(KC_SLASH, SFT_SFT, DANCE_SLASH),
+        [DANCE_PLS] = ACTION_TAP_DANCE_DATA(KC_PLUS, CMD_CTL, DANCE_PLS),
+        [DANCE_MNS] = ACTION_TAP_DANCE_DATA(KC_MINUS, CMD_CTL, DANCE_MNS),
         // Tap dance for macros: { -> {}, {};
         [DANCE_CBR] = ACTION_TAP_DANCE_DATA_STR(KC_LCBR, "{}", "{};", DANCE_CBR),
         // Tap dance for macros: ( -> (), ();
