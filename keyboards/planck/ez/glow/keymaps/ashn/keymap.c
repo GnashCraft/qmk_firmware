@@ -403,7 +403,8 @@ enum {
 
 static tap dance_state[56];
 
-// Format: MACOS_WIN/LINUX
+// Switch modifier based on the current OS.
+// Format: MACOS_WIN/LINUX.
 enum modifier {
     MOD_NONE = 0,
     CMD_CTL,
