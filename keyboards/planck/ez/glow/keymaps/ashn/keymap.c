@@ -465,16 +465,6 @@ void on_dance(qk_tap_dance_state_t *state, void *user_data) {
     if(state->count < 3) {
         set_mod_code(data);
     }
-
-    if(state->count == 3) {
-        tap_code16(data->code);
-        tap_code16(data->code);
-        tap_code16(data->code);
-    }
-
-    if(state->count > 3) {
-        tap_code16(data->code);
-    }
 }
 
 void on_dance_finished(qk_tap_dance_state_t *state, void *user_data) {
@@ -486,7 +476,8 @@ void on_dance_finished(qk_tap_dance_state_t *state, void *user_data) {
         case SINGLE_HOLD: register_code16(data->mod_code); break;
         case DOUBLE_TAP: register_code16(data->code); register_code16(data->code); break;
         case DOUBLE_HOLD: register_code16(data->code); break;
-        case DOUBLE_SINGLE_TAP: tap_code16(data->code); register_code16(data->code);
+        case DOUBLE_SINGLE_TAP: tap_code16(data->code); register_code16(data->code); break;
+        default: register_code16(data->code); break;
     }
 }
 
@@ -500,6 +491,7 @@ void on_dance_reset(qk_tap_dance_state_t *state, void *user_data) {
         case DOUBLE_TAP: unregister_code16(data->code); break;
         case DOUBLE_HOLD: unregister_code16(data->code); break;
         case DOUBLE_SINGLE_TAP: unregister_code16(data->code); break;
+        default: unregister_code16(data->code); break;
     }
 
     dance_state[data->index].step = 0;
@@ -520,7 +512,8 @@ void on_dance_finished_str(qk_tap_dance_state_t *state, void *user_data) {
             send_string(data->str_dbl);
             SEND_STRING(SS_TAP(X_LEFT) SS_TAP(X_LEFT));
             break;
-        case DOUBLE_SINGLE_TAP: tap_code16(data->code); register_code16(data->code);
+        case DOUBLE_SINGLE_TAP: tap_code16(data->code); register_code16(data->code); break;
+        default: register_code16(data->code); break;
     }
 }
 
@@ -530,8 +523,11 @@ void on_dance_reset_str(qk_tap_dance_state_t *state, void *user_data) {
     tap_dance_user_data_t *data = (tap_dance_user_data_t *)user_data;
     switch (dance_state[data->index].step) {
         case SINGLE_TAP: unregister_code16(data->code); break;
+        case SINGLE_HOLD: break;
         case DOUBLE_TAP: unregister_code16(data->code); break;
+        case DOUBLE_HOLD: break;
         case DOUBLE_SINGLE_TAP: unregister_code16(data->code); break;
+        default: unregister_code16(data->code); break;
     }
 
     dance_state[data->index].step = 0;
@@ -548,7 +544,9 @@ void on_dance_finished_abk(qk_tap_dance_state_t *state, void *user_data) {
             SEND_STRING(SS_TAP(X_LEFT));
             break;
         case DOUBLE_TAP: register_code16(data->code); register_code16(data->code); break;
-        case DOUBLE_SINGLE_TAP: tap_code16(data->code); register_code16(data->code);
+        case DOUBLE_HOLD: break;
+        case DOUBLE_SINGLE_TAP: tap_code16(data->code); register_code16(data->code); break;
+        default: unregister_code16(data->code); break;
     }
 }
 
@@ -565,16 +563,6 @@ void on_dance_home(qk_tap_dance_state_t *state, void *user_data) {
             data->mod_code = RCTL(KC_HOME);
             break;
     }
-
-    if(state->count == 3) {
-        tap_code16(data->code);
-        tap_code16(data->code);
-        tap_code16(data->code);
-    }
-
-    if(state->count > 3) {
-        tap_code16(data->code);
-    }
 }
 
 void on_dance_end(qk_tap_dance_state_t *state, void *user_data) {
@@ -590,16 +578,6 @@ void on_dance_end(qk_tap_dance_state_t *state, void *user_data) {
             data->mod_code = RCTL(KC_END);
             break;
     }
-
-    if(state->count == 3) {
-        tap_code16(data->code);
-        tap_code16(data->code);
-        tap_code16(data->code);
-    }
-
-    if(state->count > 3) {
-        tap_code16(data->code);
-    }
 }
 
 void on_dance_space(qk_tap_dance_state_t *state, void *user_data) {
@@ -608,16 +586,6 @@ void on_dance_space(qk_tap_dance_state_t *state, void *user_data) {
     switch(CUR_OS) {
         case MACOS: data->mod_code = RGUI(data->code); break;
         default: data->mod_code = KC_LGUI; break;
-    }
-
-    if(state->count == 3) {
-        tap_code16(data->code);
-        tap_code16(data->code);
-        tap_code16(data->code);
-    }
-
-    if(state->count > 3) {
-        tap_code16(data->code);
     }
 }
 
