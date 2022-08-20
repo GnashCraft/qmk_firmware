@@ -602,6 +602,25 @@ void on_dance_end(qk_tap_dance_state_t *state, void *user_data) {
     }
 }
 
+void on_dance_space(qk_tap_dance_state_t *state, void *user_data) {
+    tap_dance_user_data_t *data = (tap_dance_user_data_t *)user_data;
+
+    switch(CUR_OS) {
+        case MACOS: data->mod_code = RGUI(data->code); break;
+        default: data->mod_code = KC_LGUI; break;
+    }
+
+    if(state->count == 3) {
+        tap_code16(data->code);
+        tap_code16(data->code);
+        tap_code16(data->code);
+    }
+
+    if(state->count > 3) {
+        tap_code16(data->code);
+    }
+}
+
 #define ACTION_TAP_DANCE_DATA(code, mod, index) \
     { .fn = {on_dance, on_dance_finished, on_dance_reset}, .user_data = (void *)&((tap_dance_user_data_t){code, 0, mod, NULL, NULL, index}), }
 
@@ -616,6 +635,9 @@ void on_dance_end(qk_tap_dance_state_t *state, void *user_data) {
 
 #define ACTION_TAP_DANCE_ABK(index) \
     { .fn = {on_dance, on_dance_finished_abk, on_dance_reset_str}, .user_data = (void *)&((tap_dance_user_data_t){KC_LABK, 0, MOD_NONE, "<>", NULL, index}), }
+
+#define ACTION_TAP_DANCE_SPACE(index) \
+    { .fn = {on_dance_space, on_dance_finished, on_dance_reset}, .user_data = (void *)&((tap_dance_user_data_t){KC_SPACE, 0, MOD_NONE, NULL, NULL, index}), }
 
 qk_tap_dance_action_t tap_dance_actions[] = {
         [DANCE_Q] = ACTION_TAP_DANCE_DATA(KC_Q, CMD_CTL, DANCE_Q),
@@ -644,7 +666,7 @@ qk_tap_dance_action_t tap_dance_actions[] = {
         [DANCE_B] = ACTION_TAP_DANCE_DATA(KC_B, CMD_CTL, DANCE_B),
         [DANCE_N] = ACTION_TAP_DANCE_DATA(KC_N, CMD_CTL, DANCE_N),
         [DANCE_M] = ACTION_TAP_DANCE_DATA(KC_M, CMD_CTL, DANCE_M),
-        [DANCE_SPACE] = ACTION_TAP_DANCE_DATA(KC_SPACE, CMD_CTL, DANCE_SPACE),
+        [DANCE_SPACE] = ACTION_TAP_DANCE_SPACE(DANCE_SPACE),
         [DANCE_ENTER] = ACTION_TAP_DANCE_DATA(KC_ENTER, SFT_SFT, DANCE_ENTER),
         [DANCE_BSPACE] = ACTION_TAP_DANCE_DATA(KC_BSPACE, OPT_CTL, DANCE_BSPACE),
         [DANCE_TAB] = ACTION_TAP_DANCE_DATA(KC_TAB, CMD_ALT, DANCE_TAB),
