@@ -51,6 +51,11 @@
 #define SE_SECT_MAC ALGR(KC_6)
 #define TOG_LCOL TOGGLE_LAYER_COLOR
 
+#ifdef AUDIO_ENABLE
+    float macos_song[][2] = MACOS_SONG;
+    float windows_song[][2] = WINDOWS_SONG;
+#endif
+
 enum planck_keycodes {
   RGB_SLD = EZ_SAFE_RANGE,
 };
@@ -241,7 +246,6 @@ void keyboard_post_init_user(void) {
 
 #define RED {255,220,201}
 #define ORANGE {14,255,255}
-#define HORNET {27,237,239}
 #define YELLOW {35,255,255}
 #define GREEN {85,203,158}
 #define BLUE {154,255,255}
@@ -269,24 +273,24 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
                    YELLOW, YELLOW, YELLOW, YELLOW, GREEN,  YELLOW, YELLOW, YELLOW, PURPLE, PURPLE, PURPLE, YELLOW,
                    OFF,    OFF,    OFF,    ORANGE, OFF,       WHITE,       OFF,    ORANGE, OFF,    OFF,    OFF },
 
-    [_WBASE] = { BLUE, BLUE, BLUE,  BLUE,   BLUE,   OFF,    OFF,    BLUE,  BLUE,   BLUE,  BLUE, BLUE,
-                 BLUE, BLUE, BLUE,  BLUE,   BLUE,   HORNET, HORNET, BLUE,  BLUE,   BLUE,  BLUE, BLUE,
-                 BLUE, BLUE, BLUE,  BLUE,   BLUE,   OFF,    OFF,    BLUE,  BLUE,   BLUE,  BLUE, BLUE,
-                 OFF,  OFF,  GREEN, ORANGE, YELLOW,       RED,      GREEN, ORANGE, GREEN, OFF,  OFF },
+    [_WBASE] = { BLUE, BLUE, BLUE,  BLUE,   BLUE,   OFF,  OFF,  BLUE,  BLUE,   BLUE,  BLUE, BLUE,
+                 BLUE, BLUE, BLUE,  BLUE,   BLUE,   BLUE, BLUE, BLUE,  BLUE,   BLUE,  BLUE, BLUE,
+                 BLUE, BLUE, BLUE,  BLUE,   BLUE,   OFF,  OFF,  BLUE,  BLUE,   BLUE,  BLUE, BLUE,
+                 OFF,  OFF,  GREEN, ORANGE, YELLOW,     RED,    GREEN, ORANGE, GREEN, OFF,  OFF },
 
     [_WLOWER] = { YELLOW, OFF,    OFF, OFF,    OFF, OFF,    OFF,    OFF,   OFF,    OFF,  OFF,  OFF,
                   YELLOW, OFF,    OFF, GREEN,  OFF, OFF,    OFF,    OFF,   BLUE,   BLUE, BLUE, BLUE,
-                  YELLOW, YELLOW, OFF, GREEN,  OFF, HORNET, HORNET, OFF,   BLUE,   BLUE, BLUE, BLUE,
+                  YELLOW, YELLOW, OFF, GREEN,  OFF, GREEN,  GREEN,  OFF,   BLUE,   BLUE, BLUE, BLUE,
                   OFF,    OFF,    OFF, ORANGE, OFF,       RED,      GREEN, ORANGE, OFF,  OFF,  OFF },
 
-    [_WRAISE] = { BLUE, BLUE, BLUE,  BLUE,   BLUE,   HORNET, HORNET, BLUE, PURPLE, PURPLE, PURPLE, BLUE,
+    [_WRAISE] = { BLUE, BLUE, BLUE,  BLUE,   BLUE,   PURPLE, PURPLE, BLUE, PURPLE, PURPLE, PURPLE, BLUE,
                   BLUE, BLUE, BLUE,  BLUE,   BLUE,   OFF,    OFF,    BLUE, PURPLE, PURPLE, PURPLE, PURPLE,
                   BLUE, BLUE, BLUE,  BLUE,   BLUE,   OFF,    OFF,    BLUE, PURPLE, PURPLE, PURPLE, BLUE,
                   OFF,  OFF,  GREEN, ORANGE, YELLOW,      RED,       OFF,  ORANGE, GREEN,  OFF,    OFF },
 
-    [_WADJUST] = { PURPLE, PURPLE, BLUE,   PURPLE, PURPLE, HORNET, HORNET, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW,
+    [_WADJUST] = { PURPLE, PURPLE, BLUE,   PURPLE, PURPLE, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW,
                    YELLOW, BLUE,   BLUE,   BLUE,   GREEN,  OFF,    OFF,    YELLOW, BLUE,   BLUE,   BLUE,   YELLOW,
-                   YELLOW, YELLOW, YELLOW, YELLOW, GREEN,  HORNET, HORNET, YELLOW, PURPLE, PURPLE, PURPLE, YELLOW,
+                   YELLOW, YELLOW, YELLOW, YELLOW, GREEN,  YELLOW, YELLOW, YELLOW, PURPLE, PURPLE, PURPLE, YELLOW,
                    OFF,    OFF,    OFF,    ORANGE, OFF,       WHITE,       OFF,    ORANGE, OFF,    OFF,    OFF },
 };
 
@@ -330,6 +334,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         rgblight_mode(1);
       }
       return false;
+    case M_BASE:
+      if (record->event.pressed) {
+#ifdef AUDIO_ENABLE
+        PLAY_SONG(macos_song);
+#endif
+      }
+      break;
+    case W_BASE:
+      if (record->event.pressed) {
+#ifdef AUDIO_ENABLE
+        PLAY_SONG(windows_song);
+#endif
+      }
+      break;
   }
   return true;
 }
@@ -395,9 +413,9 @@ void matrix_scan_user(void) {
 
 bool music_mask_user(uint16_t keycode) {
     switch (keycode) {
-    case RAISE:
-    case LOWER:
-        return false;
+    // case RAISE:
+    // case LOWER:
+    //     return false;
     default:
         return true;
     }
@@ -444,7 +462,6 @@ enum {
 
 static tap dance_state[98];
 
-//TODO uint8_t dance_step(qk_tap_dance_state_t *state);
 uint8_t dance_step(qk_tap_dance_state_t *state) {
     if (state->count == 1) {
         if (state->interrupted || !state->pressed) return SINGLE_TAP;

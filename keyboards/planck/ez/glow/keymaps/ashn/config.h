@@ -1,7 +1,14 @@
 #pragma once
 
 #ifdef AUDIO_ENABLE
-#define STARTUP_SONG SONG(PLANCK_SOUND)
+// Songs defined in quantum/audio/song_list.h.
+#    define STARTUP_SONG SONG(NO_SOUND)
+#    ifndef MACOS_SONG
+#        define MACOS_SONG SONG(GUITAR_SOUND)
+#    endif
+#    ifndef WINDOWS_SONG
+#        define WINDOWS_SONG SONG(VIOLIN_SOUND)
+#    endif
 #endif
 
 #define MIDI_BASIC
