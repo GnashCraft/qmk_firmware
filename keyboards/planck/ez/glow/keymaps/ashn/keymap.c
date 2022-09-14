@@ -88,7 +88,6 @@ enum tap_dance_codes {
     TD_MB,
     TD_MN,
     TD_MM,
-    TD_MSPC,
     TD_MTAB,
     TD_MBSPC,
     TD_MDEL,
@@ -128,7 +127,6 @@ enum tap_dance_codes {
     TD_WB,
     TD_WN,
     TD_WM,
-    TD_WSPC,
     TD_WTAB,
     TD_WBSPC,
     TD_WDEL,
@@ -142,6 +140,7 @@ enum tap_dance_codes {
     TD_WMINS,
 
     // SHARED TAP DANCE CODES
+    TD_SPC,
     TD_ENT,
     TD_0,
     TD_1,
@@ -182,10 +181,10 @@ enum planck_layers {
 #define W_ADJUST MO(_WADJUST)
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_MBASE] = LAYOUT_planck_grid(
-    TD(TD_MQ), TD(TD_MW), TD(TD_ME), TD(TD_MR), TD(TD_MT),   KC_NO,      KC_NO, TD(TD_MY), TD(TD_MU), TD(TD_MI), TD(TD_MO), TD(TD_MP),    
-    TD(TD_MA), TD(TD_MS), TD(TD_MD), TD(TD_MF), TD(TD_MG),   KC_NO,      KC_NO, TD(TD_MH), TD(TD_MJ), TD(TD_MK), TD(TD_ML), KC_SCLN,      
-    TD(TD_MZ), TD(TD_MX), TD(TD_MC), TD(TD_MV), TD(TD_MB),   KC_NO,      KC_NO, TD(TD_MN), TD(TD_MM), KC_COMM,   KC_DOT,    KC_QUOT,       
-    KC_NO,     KC_NO,     KC_RCTL,   M_LOWER,   TD(TD_MSPC), TD(TD_ENT), KC_NO, KC_RSFT,   M_RAISE,   KC_RALT,   KC_NO,     KC_NO
+    TD(TD_MQ), TD(TD_MW), TD(TD_ME), TD(TD_MR), TD(TD_MT),  KC_NO,      KC_NO, TD(TD_MY), TD(TD_MU), TD(TD_MI), TD(TD_MO), TD(TD_MP),    
+    TD(TD_MA), TD(TD_MS), TD(TD_MD), TD(TD_MF), TD(TD_MG),  KC_NO,      KC_NO, TD(TD_MH), TD(TD_MJ), TD(TD_MK), TD(TD_ML), KC_SCLN,      
+    TD(TD_MZ), TD(TD_MX), TD(TD_MC), TD(TD_MV), TD(TD_MB),  KC_NO,      KC_NO, TD(TD_MN), TD(TD_MM), KC_COMM,   KC_DOT,    KC_QUOT,       
+    KC_NO,     KC_NO,     KC_RCTL,   M_LOWER,   TD(TD_SPC), TD(TD_ENT), KC_NO, KC_RSFT,   M_RAISE,   KC_RALT,   KC_NO,     KC_NO
   ),
 
   [_MLOWER] = LAYOUT_planck_grid(
@@ -210,10 +209,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   [_WBASE] = LAYOUT_planck_grid(
-    TD(TD_WQ), TD(TD_WW), TD(TD_WE), TD(TD_WR), TD(TD_WT),   KC_TRNS, KC_TRNS, TD(TD_WY), TD(TD_WU), TD(TD_WI), TD(TD_WO), TD(TD_WP),   
-    TD(TD_WA), TD(TD_WS), TD(TD_WD), TD(TD_WF), TD(TD_WG),   KC_TRNS, KC_TRNS, TD(TD_WH), TD(TD_WJ), TD(TD_WK), TD(TD_WL), KC_TRNS, 
-    TD(TD_WZ), TD(TD_WX), TD(TD_WC), TD(TD_WV), TD(TD_WB),   KC_TRNS, KC_TRNS, TD(TD_WN), TD(TD_WM), KC_TRNS,   KC_TRNS,   KC_TRNS, 
-    KC_TRNS,   KC_TRNS,   KC_TRNS,   W_LOWER,   TD(TD_WSPC), KC_TRNS, KC_NO,   KC_TRNS,   W_RAISE,   KC_TRNS,   KC_TRNS,   KC_TRNS
+    TD(TD_WQ), TD(TD_WW), TD(TD_WE), TD(TD_WR), TD(TD_WT), KC_TRNS, KC_TRNS, TD(TD_WY), TD(TD_WU), TD(TD_WI), TD(TD_WO), TD(TD_WP),   
+    TD(TD_WA), TD(TD_WS), TD(TD_WD), TD(TD_WF), TD(TD_WG), KC_TRNS, KC_TRNS, TD(TD_WH), TD(TD_WJ), TD(TD_WK), TD(TD_WL), KC_TRNS, 
+    TD(TD_WZ), TD(TD_WX), TD(TD_WC), TD(TD_WV), TD(TD_WB), KC_TRNS, KC_TRNS, TD(TD_WN), TD(TD_WM), KC_TRNS,   KC_TRNS,   KC_TRNS, 
+    KC_TRNS,   KC_TRNS,   KC_TRNS,   W_LOWER,   KC_TRNS,   KC_TRNS, KC_NO,   KC_TRNS,   W_RAISE,   KC_TRNS,   KC_TRNS,   KC_TRNS
   ),
 
   [_WLOWER] = LAYOUT_planck_grid(
@@ -578,7 +577,6 @@ qk_tap_dance_action_t tap_dance_actions[] = {
     [TD_MB] = ACTION_TAP_DANCE_DATA(KC_B, RCMD(KC_B), TD_MB),
     [TD_MN] = ACTION_TAP_DANCE_DATA(KC_N, RCMD(KC_N), TD_MN),
     [TD_MM] = ACTION_TAP_DANCE_DATA(KC_M, RCMD(KC_M), TD_MM),
-    [TD_MSPC] = ACTION_TAP_DANCE_DATA(KC_SPC, RCMD(KC_SPC), TD_MSPC),
     [TD_MTAB] = ACTION_TAP_DANCE_DATA(KC_TAB, RCMD(KC_TAB), TD_MTAB),
     [TD_MBSPC] = ACTION_TAP_DANCE_DATA(KC_BSPC, ROPT(KC_BSPC), TD_MBSPC),
     [TD_MDEL] = ACTION_TAP_DANCE_DATA(KC_DEL, ROPT(KC_DEL), TD_MDEL),
@@ -618,7 +616,6 @@ qk_tap_dance_action_t tap_dance_actions[] = {
     [TD_WB] = ACTION_TAP_DANCE_DATA(KC_B, RCTL(KC_B), TD_WB),
     [TD_WN] = ACTION_TAP_DANCE_DATA(KC_N, RCTL(KC_N), TD_WN),
     [TD_WM] = ACTION_TAP_DANCE_DATA(KC_M, RCTL(KC_M), TD_WM),
-    [TD_WSPC] = ACTION_TAP_DANCE_DATA(KC_SPC, KC_RWIN, TD_WSPC),
     [TD_WTAB] = ACTION_TAP_DANCE_DATA(KC_TAB, RALT(KC_TAB), TD_WTAB),
     [TD_WBSPC] = ACTION_TAP_DANCE_DATA(KC_BSPC, RCTL(KC_BSPC), TD_WBSPC),
     [TD_WDEL] = ACTION_TAP_DANCE_DATA(KC_DEL, RCTL(KC_DEL), TD_WDEL),
@@ -632,6 +629,7 @@ qk_tap_dance_action_t tap_dance_actions[] = {
     [TD_WMINS] = ACTION_TAP_DANCE_DATA(KC_MINS, RCTL(KC_MINS), TD_WMINS),
 
     // SHARED TAP DANCE ACTIONS
+    [TD_SPC] = ACTION_TAP_DANCE_DATA(KC_SPC, RGUI(KC_SPC), TD_SPC),
     [TD_ENT] = ACTION_TAP_DANCE_DATA(KC_ENT, RSFT(KC_ENT), TD_ENT),
     [TD_0] = ACTION_TAP_DANCE_DATA(KC_0, RSFT(KC_0), TD_0),
     [TD_1] = ACTION_TAP_DANCE_DATA(KC_1, RSFT(KC_1), TD_1),
